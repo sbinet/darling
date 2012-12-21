@@ -26,7 +26,8 @@ endif(SUFFIX STREQUAL "32")
 
 enable_language(ASM-ATT)
 enable_language(ASM_NASM)
-ADD_DEFINITIONS(-ggdb -DDEBUG)
+#ADD_DEFINITIONS(-ggdb)
+ADD_DEFINITIONS(-DDEBUG)
 #ADD_DEFINITIONS(-O3)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -37,6 +38,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/darwin)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/libmach-o)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/util)
 include_directories(${CMAKE_BINARY_DIR}) # for config.h
+include_directories(/opt/gnustep/include) # for libobjc2
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
@@ -110,15 +112,12 @@ if (NOT DEFINED SUFFIX OR SUFFIX STREQUAL "64")
 	install(FILES etc/dylib.conf DESTINATION /etc/darling)
 	add_subdirectory(src/macbinary)
 	add_subdirectory(src/libmacarchive)
-	add_subdirectory(src/crash)
+	#add_subdirectory(src/crash)
 endif(NOT DEFINED SUFFIX OR SUFFIX STREQUAL "64")
 
 install(TARGETS mach-o DESTINATION "lib${SUFFIX}/darling")
 
-if (WITH_TESTS)
-	add_subdirectory(tests)
-endif (WITH_TESTS)
-
+#add_subdirectory(tests)
 add_subdirectory(src/libSystem)
 add_subdirectory(src/Cocoa)
 add_subdirectory(src/libobjcdarwin)
